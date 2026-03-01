@@ -54,7 +54,7 @@ class _PostViewState extends State<PostView> {
             if (snapshot.hasData && snapshot.data!.snapshot.value != null) {
               final dynamic rawData = snapshot.data!.snapshot.value;
               Map<dynamic, dynamic> map = rawData as Map<dynamic, dynamic>;
-              List<dynamic> dataList = map.values.toList();
+              //  List<dynamic> dataList = map.values.toList();
               return Column(
                 children: [
                   Padding(
@@ -79,17 +79,21 @@ class _PostViewState extends State<PostView> {
                           itemCount: filterList.length,
                           itemBuilder: (context, index) {
                             final post = filterList[index];
+                            final String postId = post["id"]?.toString() ?? "";
+                            final String postText = post["Data"] ?? "No title ";
                             return ListTile(
-                              title: Text(post["Data"] ?? "No title "),
+                              title: Text(postText),
                               subtitle: Text(post["serverTime"].toString()),
                               trailing: PopupMenuButton(
                                 itemBuilder: (context) => [
                                   PopupMenuItem(
-                                    onTap: () {
-                                      myDialogBox();
-                                    },
                                     value: 1,
-                                    child: Text("Edit"),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        myDialogBox(postId, postText);
+                                      },
+                                      child: Text("Edit"),
+                                    ),
                                   ),
 
                                   PopupMenuItem(
@@ -116,13 +120,17 @@ class _PostViewState extends State<PostView> {
   }
 
   //show snack bar for edit title
-  void myDialogBox() {
+  void myDialogBox(String id, String currentText) {
+    TextEditingController editingController = TextEditingController(
+      text: currentText,
+    );
     showDialog(
       barrierDismissible: false,
       context: context,
       builder: (context) {
         return AlertDialog(
           content: TextField(
+            controller: editingController,
             decoration: InputDecoration(hintText: "edit Text"),
           ),
           title: Text("Edit Title"),
@@ -133,7 +141,16 @@ class _PostViewState extends State<PostView> {
               },
               child: Text("cencel"),
             ),
-            TextButton(onPressed: () {}, child: Text("ok")),
+            TextButton(
+              onPressed: () async {
+                await context.read<RealDatabaseViewModel>().updateData(
+                  id,
+                  editingController.text,
+                );
+                if (context.mounted) Navigator.pop(context);
+              },
+              child: Text("ok"),
+            ),
           ],
         );
       },

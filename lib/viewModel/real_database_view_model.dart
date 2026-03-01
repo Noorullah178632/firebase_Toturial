@@ -22,10 +22,11 @@ class RealDatabaseViewModel extends ChangeNotifier {
   Future<bool> addData(String data) async {
     _setLoading(true);
     try {
-      await _instance
-          .ref("Post")
-          .push()
-          .set({"Data": data, "serverTime": ServerValue.timestamp})
+      // 1. Generate the unique reference FIRST
+      final newPostRef = _instance.ref("Post").push();
+      final id = newPostRef.key;
+      await newPostRef
+          .set({"id": id, "Data": data, "serverTime": ServerValue.timestamp})
           .then((value) {
             Utils().toastMessage("Data added successfully", value: true);
           });
@@ -35,6 +36,20 @@ class RealDatabaseViewModel extends ChangeNotifier {
       return false;
     } finally {
       _setLoading(false);
+    }
+  }
+
+  //update data
+  Future<bool> updateData(String id, String newText) async {
+    try {
+      await _instance.ref("Post").child(id).update({
+        "Data": newText,
+        "serverTime": ServerValue.timestamp,
+      });
+      return true;
+    } catch (e) {
+      Utils().toastMessage("Update failed :${e.toString()}", value: false);
+      return false;
     }
   }
 
