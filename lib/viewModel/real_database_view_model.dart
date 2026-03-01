@@ -37,4 +37,22 @@ class RealDatabaseViewModel extends ChangeNotifier {
       _setLoading(false);
     }
   }
+
+  // methods for search and filter the data
+  String _searchQuery = "";
+  void searchData(String value) {
+    _searchQuery = value.toLowerCase();
+    notifyListeners();
+  }
+
+  //no filter the data
+  List filterData(Map<dynamic, dynamic> map) {
+    List<dynamic> list = map.values.toList();
+    if (list.isEmpty) return list;
+    return list.where((item) {
+      final String title = item["Data"]?.toString().toLowerCase() ?? "";
+
+      return title.contains(_searchQuery);
+    }).toList();
+  }
 }

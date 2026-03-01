@@ -13,6 +13,7 @@ class PostView extends StatefulWidget {
 }
 
 class _PostViewState extends State<PostView> {
+  TextEditingController searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,33 +60,46 @@ class _PostViewState extends State<PostView> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
+                      onChanged: (value) {
+                        context.read<RealDatabaseViewModel>().searchData(value);
+                      },
+                      controller: searchController,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
-                        hint: Text("search data"),
+                        hint: Text("Search data"),
                       ),
                     ),
                   ),
                   Expanded(
-                    child: ListView.builder(
-                      itemCount: dataList.length,
-                      itemBuilder: (context, index) {
-                        final post = dataList[index];
-                        return ListTile(
-                          title: Text(post["Data"] ?? "No title "),
-                          subtitle: Text(post["serverTime"].toString()),
-                          trailing: PopupMenuButton(
-                            itemBuilder: (context) => [
-                              PopupMenuItem(
-                                onTap: () {
-                                  myDialogBox();
-                                },
-                                value: 1,
-                                child: Text("Edit"),
-                              ),
+                    child: Consumer<RealDatabaseViewModel>(
+                      builder: (context, vm, child) {
+                        final filterList = vm.filterData(map);
 
-                              PopupMenuItem(value: 2, child: Text("Delete")),
-                            ],
-                          ),
+                        return ListView.builder(
+                          itemCount: filterList.length,
+                          itemBuilder: (context, index) {
+                            final post = filterList[index];
+                            return ListTile(
+                              title: Text(post["Data"] ?? "No title "),
+                              subtitle: Text(post["serverTime"].toString()),
+                              trailing: PopupMenuButton(
+                                itemBuilder: (context) => [
+                                  PopupMenuItem(
+                                    onTap: () {
+                                      myDialogBox();
+                                    },
+                                    value: 1,
+                                    child: Text("Edit"),
+                                  ),
+
+                                  PopupMenuItem(
+                                    value: 2,
+                                    child: Text("Delete"),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
                         );
                       },
                     ),
