@@ -53,6 +53,17 @@ class RealDatabaseViewModel extends ChangeNotifier {
     }
   }
 
+  Future<bool> delete(String id) async {
+    try {
+      await _instance.ref("Post").child(id).remove();
+      Utils().toastMessage("Post deleted", value: true);
+      return true;
+    } catch (e) {
+      Utils().toastMessage("Delete failed: ${e.toString()}", value: false);
+      return false;
+    }
+  }
+
   // methods for search and filter the data
   String _searchQuery = "";
   void searchData(String value) {

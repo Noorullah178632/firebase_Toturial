@@ -85,16 +85,15 @@ class _PostViewState extends State<PostView> {
                               title: Text(postText),
                               subtitle: Text(post["serverTime"].toString()),
                               trailing: PopupMenuButton(
+                                onSelected: (value) {
+                                  if (value == 1) {
+                                    myDialogBox(postId, postText);
+                                  } else if (value == 2) {
+                                    vm.delete(postId);
+                                  }
+                                },
                                 itemBuilder: (context) => [
-                                  PopupMenuItem(
-                                    value: 1,
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        myDialogBox(postId, postText);
-                                      },
-                                      child: Text("Edit"),
-                                    ),
-                                  ),
+                                  PopupMenuItem(value: 1, child: Text("Edit")),
 
                                   PopupMenuItem(
                                     value: 2,
