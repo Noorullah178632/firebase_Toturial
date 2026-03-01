@@ -75,7 +75,13 @@ class _PostViewState extends State<PostView> {
                           subtitle: Text(post["serverTime"].toString()),
                           trailing: PopupMenuButton(
                             itemBuilder: (context) => [
-                              PopupMenuItem(value: 1, child: Text("Edit")),
+                              PopupMenuItem(
+                                onTap: () {
+                                  myDialogBox();
+                                },
+                                value: 1,
+                                child: Text("Edit"),
+                              ),
 
                               PopupMenuItem(value: 2, child: Text("Delete")),
                             ],
@@ -92,6 +98,31 @@ class _PostViewState extends State<PostView> {
           },
         ),
       ),
+    );
+  }
+
+  //show snack bar for edit title
+  void myDialogBox() {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: TextField(
+            decoration: InputDecoration(hintText: "edit Text"),
+          ),
+          title: Text("Edit Title"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("cencel"),
+            ),
+            TextButton(onPressed: () {}, child: Text("ok")),
+          ],
+        );
+      },
     );
   }
 }
