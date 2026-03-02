@@ -7,4 +7,13 @@ class FirestoreDatabaseServices {
   Future<void> addTask(String title) async {
     await _db.collection("User Data").add({"title": title.toString()});
   }
+
+  //fetch data
+  Stream<List<Map<String, dynamic>>> fetchStreamData() {
+    return _db.collection("User Data").snapshots().map((snap) {
+      return snap.docs.map((doc) {
+        return {"id": doc.id, ...doc.data()};
+      }).toList();
+    });
+  }
 }

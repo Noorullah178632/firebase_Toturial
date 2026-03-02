@@ -1,5 +1,6 @@
 import 'package:firebase_project/firebase_services/firestore_database_services.dart';
 import 'package:firebase_project/utils/utils_methods.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class FirestoreDatabaseViewModel extends ChangeNotifier {
@@ -27,4 +28,8 @@ class FirestoreDatabaseViewModel extends ChangeNotifier {
       setLoading(false);
     }
   }
+
+  //get data
+  Stream<List<Map<String, dynamic>>> get streamData =>
+      services.fetchStreamData();
 }
