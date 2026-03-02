@@ -1,5 +1,6 @@
 import 'package:firebase_project/firebase_options.dart';
 import 'package:firebase_project/view/posts/post_view.dart';
+import 'package:firebase_project/view/posts/post_view2.dart';
 import 'package:firebase_project/viewModel/auth_view_model.dart';
 import 'package:firebase_project/viewModel/real_database_view_model.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
           ),
           colorSchemeSeed: Colors.deepPurple,
         ),
-        home: PostView(),
+        home: PostView2(),
       ),
     );
   }

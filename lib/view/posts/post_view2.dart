@@ -1,3 +1,4 @@
+import 'package:firebase_project/view/posts/add_post_view2.dart';
 import 'package:firebase_project/viewModel/real_database_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +23,7 @@ class _PostView2State extends State<PostView2> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => PostView2()),
+                MaterialPageRoute(builder: (_) => AddPostView2()),
               );
             },
             icon: Icon(Icons.add),
