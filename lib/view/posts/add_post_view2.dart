@@ -1,3 +1,4 @@
+import 'package:firebase_project/viewModel/firestore_database_view_model.dart';
 import 'package:firebase_project/viewModel/real_database_view_model.dart';
 import 'package:firebase_project/widgets/rounded_button.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,7 @@ class _AddPostView2State extends State<AddPostView2> {
                 validator: (value) {
                   // 1. Check if the field is null or just empty spaces
                   if (value == null || value.trim().isEmpty) {
-                    return "Please enter some text to post";
+                    return "Please enter some text to save";
                   }
                   return null;
                 },
@@ -43,12 +44,18 @@ class _AddPostView2State extends State<AddPostView2> {
             ),
             SizedBox(height: 20.h),
 
-            Consumer<RealDatabaseViewModel>(
+            Consumer<FirestoreDatabaseViewModel>(
               builder: (context, vm, child) {
                 return RoundedButton(
                   isLoading: vm.isLoading,
                   title: "Add post",
-                  onPressed: () async {},
+                  onPressed: () async {
+                    if (formKey.currentState!.validate()) {
+                      vm.addData(postController.text.trim()).then((value) {
+                        postController.clear();
+                      });
+                    }
+                  },
                 );
               },
             ),

@@ -36,17 +36,6 @@ class _PostView2State extends State<PostView2> {
           builder: (context, snapshot) {
             return Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    onChanged: (value) {},
-                    controller: searchController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hint: Text("Search data"),
-                    ),
-                  ),
-                ),
                 Expanded(
                   child: ListView.builder(
                     itemCount: 3,
