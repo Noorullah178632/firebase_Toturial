@@ -1,4 +1,5 @@
 import 'package:firebase_project/view/posts/add_post_view2.dart';
+import 'package:firebase_project/viewModel/firestore_database_view_model.dart';
 import 'package:firebase_project/viewModel/real_database_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -32,30 +33,29 @@ class _PostView2State extends State<PostView2> {
       ),
       body: Center(
         child: StreamBuilder(
-          stream: context.read<RealDatabaseViewModel>().streamData,
+          stream: context.read<FirestoreDatabaseViewModel>().streamData,
           builder: (context, snapshot) {
-            return Column(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: 3,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text("HI my name"),
-                        subtitle: Text("1,23,34"),
-                        trailing: PopupMenuButton(
-                          onSelected: (value) {},
-                          itemBuilder: (context) => [
-                            PopupMenuItem(value: 1, child: Text("Edit")),
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            final items = snapshot.data ?? [];
+            return ListView.builder(
+              itemCount: items.length,
+              itemBuilder: (context, index) {
+                final item = items[index];
+                return ListTile(
+                  title: Text(item["title"] ?? "no title"),
+                  subtitle: Text(item["id"]),
+                  trailing: PopupMenuButton(
+                    onSelected: (value) {},
+                    itemBuilder: (context) => [
+                      PopupMenuItem(value: 1, child: Text("Edit")),
 
-                            PopupMenuItem(value: 2, child: Text("Delete")),
-                          ],
-                        ),
-                      );
-                    },
+                      PopupMenuItem(value: 2, child: Text("Delete")),
+                    ],
                   ),
-                ),
-              ],
+                );
+              },
             );
           },
         ),
