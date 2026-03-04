@@ -15,6 +15,15 @@ class _AddPostView2State extends State<AddPostView2> {
   TextEditingController postController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   @override
+  void initState() {
+    super.initState();
+    // Reset loading state so the button doesn't start in loading mode
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<FirestoreDatabaseViewModel>().setLoading(false);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Add post")),
