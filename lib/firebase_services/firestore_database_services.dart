@@ -25,4 +25,9 @@ class FirestoreDatabaseServices {
   Future<void> updateData(String id, Map<String, dynamic> data) async {
     await _db.collection("User Data").doc(id).update(data);
   }
+
+  //delete data
+  Future<void> deleteID(String id) async {
+    await _db.collection("User Data").doc(id).delete();
+  }
 }

@@ -32,13 +32,24 @@ class FirestoreDatabaseViewModel extends ChangeNotifier {
   //get data
   Stream<List<Map<String, dynamic>>> get streamData =>
       services.fetchStreamData();
-  //update data from the services
+  //update data
   Future<void> updateData(String id, Map<String, dynamic> data) async {
     try {
       await services.updateData(id, data);
       Utils().toastMessage(" Data is successfully updated ", value: true);
     } catch (e) {
       Utils().toastMessage(e.toString(), value: false);
+    }
+  }
+
+  //delete data
+  Future<void> deleteId(String id) async {
+    try {
+      await services.deleteID(id).then((value) {
+        Utils().toastMessage("Id successfully deleted", value: true);
+      });
+    } catch (e) {
+      Utils().toastMessage(e.toString());
     }
   }
 }

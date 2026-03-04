@@ -12,6 +12,14 @@ class PostView2 extends StatefulWidget {
 
 class _PostView2State extends State<PostView2> {
   TextEditingController searchController = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    WidgetsBinding.instance.addPostFrameCallback((value) {
+      context.read<FirestoreDatabaseViewModel>().setLoading(false);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +59,9 @@ class _PostView2State extends State<PostView2> {
                         onSelected: (value) {
                           if (value == 1) {
                             showMyDialog(item["id"], item["title"], vm);
-                          } else {}
+                          } else {
+                            vm.deleteId(item["id"]);
+                          }
                         },
                         itemBuilder: (context) => [
                           PopupMenuItem(value: 1, child: Text("Edit")),
@@ -97,7 +107,9 @@ class _PostView2State extends State<PostView2> {
               vm.updateData(id, {"title": editController.text});
               if (context.mounted) Navigator.pop(context);
             },
-            child: Text('OK'),
+            child: vm.isLoading
+                ? CircularProgressIndicator(color: Colors.blue)
+                : Text('OK'),
           ),
         ],
       ),
