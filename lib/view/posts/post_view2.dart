@@ -1,6 +1,5 @@
 import 'package:firebase_project/view/posts/add_post_view2.dart';
 import 'package:firebase_project/viewModel/firestore_database_view_model.dart';
-import 'package:firebase_project/viewModel/real_database_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
