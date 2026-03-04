@@ -32,4 +32,15 @@ class FirestoreDatabaseViewModel extends ChangeNotifier {
   //get data
   Stream<List<Map<String, dynamic>>> get streamData =>
       services.fetchStreamData();
+  //update data from the services
+  Future<void> updateData(String id, Map<String, dynamic> data) async {
+    setLoading(false);
+    try {
+      await services.updateData(id, data);
+    } catch (e) {
+      Utils().toastMessage(e.toString(), value: false);
+    } finally {
+      setLoading(true);
+    }
+  }
 }

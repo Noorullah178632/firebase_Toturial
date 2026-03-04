@@ -21,4 +21,8 @@ class FirestoreDatabaseServices {
   }
 
   //we can also get the firestore data base data using like that : .collection("user Data").snapshot(),, but the thing is if we wanna filter data then we move toward the mapping method
+  //update function
+  Future<void> updateData(String id, Map<String, dynamic> data) async {
+    await _db.collection("User Data").doc(id).update(data);
+  }
 }
