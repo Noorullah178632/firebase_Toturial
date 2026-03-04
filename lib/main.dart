@@ -1,5 +1,5 @@
 import 'package:firebase_project/firebase_options.dart';
-import 'package:firebase_project/view/posts/post_view2.dart';
+import 'package:firebase_project/view/imageUpload/image_upload_view.dart';
 import 'package:firebase_project/viewModel/auth_view_model.dart';
 import 'package:firebase_project/viewModel/firestore_database_view_model.dart';
 import 'package:firebase_project/viewModel/real_database_view_model.dart';
@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
           ),
           colorSchemeSeed: Colors.deepPurple,
         ),
-        home: PostView2(),
+        home: ImageUploadView(),
       ),
     );
   }
