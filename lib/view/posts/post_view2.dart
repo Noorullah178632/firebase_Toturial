@@ -61,4 +61,28 @@ class _PostView2State extends State<PostView2> {
       ),
     );
   }
+
+  void showMyDialog(String id, String currentText) {
+    TextEditingController editController = TextEditingController(
+      text: currentText,
+    );
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Edit Text'),
+        content: TextField(
+          controller: editController,
+          decoration: InputDecoration(hintText: "edit text"),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('CANCEL'),
+          ),
+          TextButton(onPressed: () {}, child: const Text('OK')),
+        ],
+      ),
+    );
+  }
 }
