@@ -45,13 +45,21 @@ class _PostView2State extends State<PostView2> {
                 return ListTile(
                   title: Text(item["title"] ?? "no title"),
                   subtitle: Text(item["id"]),
-                  trailing: PopupMenuButton(
-                    onSelected: (value) {},
-                    itemBuilder: (context) => [
-                      PopupMenuItem(value: 1, child: Text("Edit")),
+                  trailing: Consumer<FirestoreDatabaseViewModel>(
+                    builder: (context, vm, child) {
+                      return PopupMenuButton(
+                        onSelected: (value) {
+                          if (value == 1) {
+                            showMyDialog(item["id"], item["title"], vm);
+                          } else {}
+                        },
+                        itemBuilder: (context) => [
+                          PopupMenuItem(value: 1, child: Text("Edit")),
 
-                      PopupMenuItem(value: 2, child: Text("Delete")),
-                    ],
+                          PopupMenuItem(value: 2, child: Text("Delete")),
+                        ],
+                      );
+                    },
                   ),
                 );
               },
@@ -62,7 +70,11 @@ class _PostView2State extends State<PostView2> {
     );
   }
 
-  void showMyDialog(String id, String currentText) {
+  void showMyDialog(
+    String id,
+    String currentText,
+    FirestoreDatabaseViewModel vm,
+  ) {
     TextEditingController editController = TextEditingController(
       text: currentText,
     );
@@ -80,7 +92,13 @@ class _PostView2State extends State<PostView2> {
             onPressed: () => Navigator.pop(context),
             child: const Text('CANCEL'),
           ),
-          TextButton(onPressed: () {}, child: const Text('OK')),
+          TextButton(
+            onPressed: () {
+              vm.updateData(id, {"title": editController.text});
+              if (context.mounted) Navigator.pop(context);
+            },
+            child: Text('OK'),
+          ),
         ],
       ),
     );
