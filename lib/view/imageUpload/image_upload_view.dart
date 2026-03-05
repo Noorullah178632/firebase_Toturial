@@ -1,4 +1,3 @@
-import 'package:firebase_project/utils/utils_methods.dart';
 import 'package:firebase_project/widgets/rounded_button.dart';
 import 'package:flutter/material.dart';
 
