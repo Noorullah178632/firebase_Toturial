@@ -74,7 +74,17 @@ class _ImageUploadViewState extends State<ImageUploadView> {
           ),
           SizedBox(height: 100),
 
-          RoundedButton(title: "save", onPressed: () {}),
+          Consumer<ImagePickerViewModel>(
+            builder: (context, vm, child) {
+              return RoundedButton(
+                isLoading: vm.isLoading,
+                title: "save",
+                onPressed: () async {
+                  await vm.uploadImageToCloudnary();
+                },
+              );
+            },
+          ),
         ],
       ),
     );
