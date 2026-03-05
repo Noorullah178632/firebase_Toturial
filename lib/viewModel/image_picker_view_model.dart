@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:developer';
 
 import 'package:firebase_project/utils/utils_methods.dart';
 import 'package:flutter/material.dart';
@@ -20,5 +21,6 @@ class ImagePickerViewModel extends ChangeNotifier {
     } catch (e) {
       Utils().toastMessage("Error in image picking ", value: false);
     }
+    notifyListeners();
   }
 }
