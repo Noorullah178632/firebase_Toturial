@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:firebase_project/utils/utils_methods.dart';
 import 'package:flutter/material.dart';
@@ -50,6 +49,7 @@ class ImagePickerViewModel extends ChangeNotifier {
         ),
       );
       _cloudinaryUrl = response.secureUrl;
+
       Utils().toastMessage("successfully added to the cloudnary", value: true);
     } on CloudinaryException catch (e) {
       Utils().toastMessage(e.toString(), value: false);
